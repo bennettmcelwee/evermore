@@ -3,7 +3,7 @@
 Plugin Name: Evermore
 Plugin URI: http://www.thunderguy.com/semicolon/wordpress/evermore-wordpress-plugin/
 Description: Abbreviate all posts when viewed on multiple post pages. This makes all posts behave as if there is a "&lt;!--more--&gt;" at an appropriate spot inside the content.
-Version: 2.3.2
+Version: 2.3.2+
 Author: Bennett McElwee
 Author URI: http://www.thunderguy.com/semicolon/
 
@@ -52,12 +52,9 @@ DEVELOPMENT NOTES
 All globals begin with "tguy_em_" (for Thunderguy Evermore)
 */
 
-if (!is_plugin_page()) :
-
 
 // Add the "more" link immediately after reading the post from the database
 add_filter('the_posts', 'tguy_em_addmoreall');
-add_action('admin_menu', 'tguy_em_add_admin_pages');
 
 
 function tguy_em_addmoreall($posts) {
@@ -166,11 +163,25 @@ function tguy_em_get_diagnostics(&$post_content, $options) {
 	return "Evermore was not triggered. Diagnostics:
 Skip chars [$char_skip_count] 
 Skip paragraphs [$para_skip_count] 
-New paragraph [".($link_on_new_para?'true':'false')."] 
+New paragraph [" . ( $link_on_new_para? 'true' : 'false' ) . "] 
 Post length [".strlen($post_content)."] 
 Reason [$diagnostic_reason] 
 ".$diagnostic_extra_info;
 }
+
+function tguy_em_get_default_options() {
+	return array(
+		'em_min_chars_to_skip' => 100,
+		'em_paras_to_skip' => 1,
+		'em_link_on_new_para' => true,
+	);
+}
+
+
+
+if ( is_admin() ) {
+
+add_action('admin_menu', 'tguy_em_add_admin_pages');
 
 function tguy_em_add_admin_pages() {
 	add_options_page('Evermore', 'Evermore', 'manage_options', __FILE__, 'tguy_em_options_page');
@@ -178,19 +189,6 @@ function tguy_em_add_admin_pages() {
 	// Create option in options database if not there already:
 	add_option('tguy_more_evermore', tguy_em_get_default_options());
 }
-
-function tguy_em_get_default_options() {
-	$options = array();
-	$options['em_min_chars_to_skip'] = 100;
-	$options['em_paras_to_skip'] = 1;
-	$options['em_link_on_new_para'] = true;
-	return $options;
-}
-
-
-
-endif; // if (!is_plugin_page())
-
 
 function tguy_em_options_page() {
 	// See if user has submitted form
@@ -270,4 +268,6 @@ function tguy_em_options_page() {
 		</form>
 	</div>
 <?php
+}
+
 }
