@@ -1,15 +1,18 @@
 <?php
 /*
 Plugin Name: Evermore
-Plugin URI: http://www.thunderguy.com/semicolon/wordpress/evermore-wordpress-plugin/
+Plugin URI: http://thunderguy.com/semicolon/wordpress/evermore-wordpress-plugin/
 Description: Abbreviate all posts when viewed on multiple post pages. This makes all posts behave as if there is a "&lt;!--more--&gt;" at an appropriate spot inside the content.
-Version: 2.3.2.1
+Version: 2.4
 Author: Bennett McElwee
-Author URI: http://www.thunderguy.com/semicolon/
+Author URI: http://thunderguy.com/semicolon/
+Requires at least: 3.0
+Tested up to: 3.5.2
+Licence: GPLv2 or later
 
 $Revision: 622683 $
 
-Copyright (C) 2005-12 Bennett McElwee
+Copyright (C) 2005-13 Bennett McElwee
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -51,6 +54,11 @@ If you want to disable the plugin for any specific post, then include the codewo
 
 new EvermorePlugin();
 
+/*
+ * @package Evermore
+ * @author Bennett McElwee
+ * @since 2.4
+ */
 class EvermorePlugin {
 
 	public function __construct() {
@@ -161,17 +169,15 @@ class EvermorePlugin {
 				array("\n", "\r"),
 				array("\\n", "\\r"),
 				$diagnostic_unskipped_chars);
-			$diagnostic_extra_info = "Post content (unskipped)
-	[" . $diagnostic_unskipped_chars . "]
-	";
+			$diagnostic_extra_info = "Post content (unskipped) [" . $diagnostic_unskipped_chars . "]";
 		}
 		return "Evermore was not triggered. Diagnostics:
-	Skip chars [$char_skip_count] 
-	Skip paragraphs [$para_skip_count] 
-	New paragraph [" . ( $link_on_new_para? 'true' : 'false' ) . "] 
-	Post length [".strlen($post_content)."] 
-	Reason [$diagnostic_reason] 
-	".$diagnostic_extra_info;
+Skip chars [$char_skip_count] 
+Skip paragraphs [$para_skip_count] 
+New paragraph [" . ( $link_on_new_para? 'true' : 'false' ) . "] 
+Post length [".strlen($post_content)."] 
+Reason [$diagnostic_reason] 
+".$diagnostic_extra_info;
 	}
 
 	private function get_default_options() {
@@ -257,14 +263,32 @@ class EvermorePlugin {
 				document.write('<p class="submit"><input type="submit" class="button-secondary" name="Defaults" value="Use Defaults" onclick="tguy_em_set_defaults(); return false;" /></p>');
 				</script>
 				<noscript>
-				<p><strong>Defaults:</strong> Previews contain first 1 paragraph; count first 100 characters in first paragraph; show "Read more" on a line by itself.</p>
+				<p><strong>Defaults:</strong> Previews contain first 1 paragraph; previews are at least 100 characters; show "Read more" on a line by itself.</p>
 				</noscript>
 				<p class="submit">
 					<input name="Submit" class="button-primary" value="Save Changes" type="submit">
 				</p>
 			</form>
+			<h3 class="title">Do you find this plugin useful?</h2>
+			<p><div style="margin: 0; padding: 0 2ex 0.25ex 0; float: left;">
+			<?php $this->render_donation_button() ?>
+			</div>
+			I write WordPress plugins because I enjoy doing it, but it does take up a lot
+			of my time. If you think this plugin is useful, please consider donating some appropriate
+			amount by clicking the <strong>Donate</strong> button. You can also send <strong>Bitcoins</strong>
+			to address <tt>1542gqyprvQd7gwvtZZ4x25cPeGWVKg45x</tt>. Thanks!</p>
 		</div>
 	<?php
+	}
+
+	private function render_donation_button() {
+		// This donation code is specific to this plugin
+		?><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top"
+		><input type="hidden" name="cmd" value="_s-xclick"
+		><input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----"
+		><input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!"
+		><img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1"
+		></form><?php
 	}
 
 }

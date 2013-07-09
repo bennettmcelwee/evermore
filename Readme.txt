@@ -1,7 +1,7 @@
 === Evermore ===
 Contributors: bennettmcelwee
-Tags: extract,more,abbreviate,short
-Requires at least: 1.5
+Tags: extract,more,abbreviate,short,preview
+Requires at least: 3.0
 Tested up to: 3.4.2
 Stable tag: 2.3
 
