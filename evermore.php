@@ -7,12 +7,12 @@ Version: 2.4
 Author: Bennett McElwee
 Author URI: http://thunderguy.com/semicolon/
 Requires at least: 3.0
-Tested up to: 3.5.2
+Tested up to: 4.3
 Licence: GPLv2 or later
 
 $Revision: 622683 $
 
-Copyright (C) 2005-13 Bennett McElwee
+Copyright (C) 2005-15 Bennett McElwee
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
