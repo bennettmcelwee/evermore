@@ -10,7 +10,7 @@ Requires at least: 3.0
 Tested up to: 4.3
 Licence: GPLv2 or later
 
-$Revision: 622683 $
+$Revision: 1241429 $
 
 Copyright (C) 2005-15 Bennett McElwee
 
