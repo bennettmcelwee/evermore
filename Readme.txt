@@ -2,7 +2,7 @@
 Contributors: bennettmcelwee
 Tags: extract,more,abbreviate,short,preview,teaser
 Requires at least: 3.0
-Tested up to: 4.3
+Tested up to: 4.6
 Stable tag: 2.4
 
 Evermore automatically abbreviates all posts when they appear on a multiple-post page such as the main blog page.
